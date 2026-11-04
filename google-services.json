@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "309602934853",
+    "project_id": "ebonikmart-ba757",
+    "storage_bucket": "ebonikmart-ba757.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309602934853:android:e65b664eac7e50ee1b032c",
+        "android_client_info": {
+          "package_name": "com.dayonesoft.onemartcustomer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0GcW_5b2QjUkF3oEsJjFGVXaiJsYkRT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
