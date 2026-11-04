@@ -3,7 +3,7 @@ description: "DayOneMart - Single Vendor E-Commerce Management System Flutter Cu
 
 publish_to: 'none'
 
-version: 4.3.0+0
+version: 4.3.0+1
 
 environment:
   sdk: ^3.10.0

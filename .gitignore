@@ -43,6 +43,10 @@ android/app/.cxx
 /android/app/.cxx
 android/app/.cxx/
 android/.kotlin
+android/key.properties
+android/app/upload-keystore.jks
+android/app/google-services.json
+android/app/src/main/res/values/secrets.xml
 
 # Web related
 

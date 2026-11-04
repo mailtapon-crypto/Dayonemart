@@ -81,10 +81,10 @@ This file contains Google Maps API key and Facebook credentials.
 All API requests point to the `baseUrl` defined in `lib/config/util/app_constants.dart`. Currently it is set to the demo/developer's server:
 
 ```dart
-static const String baseUrl = 'https://your-server.com';
+static const String baseUrl = 'https://ebonik.bd';
 ```
 
-> ⚠️ **You MUST change this to your own backend URL** (e.g., `https://your-server.com`) before running the app in production. Failure to do so will cause the app to send requests to the wrong server.
+The customer API is configured to use `https://ebonik.bd`. Confirm that the API routes (for example, `/api/v1/customer/...`) are served by this domain before building for production.
 
 ---
 
@@ -129,6 +129,31 @@ Auth tokens are stored via `flutter_secure_storage` (Android Keystore / iOS Keyc
 2. **Android symbols** are uploaded automatically by the Crashlytics Gradle plugin (already wired in `android/app/build.gradle.kts`).
 3. **iOS dSYMs** upload via the standard Crashlytics run-script build phase in Xcode.
 4. To switch crash destination (e.g., Sentry), replace the two handlers in `lib/main.dart`.
+
+## 7. Build a signed APK with CI
+
+Both `codemagic.yaml` and `.github/workflows/android-apk.yml` build a signed release APK. Configure these values as protected CI secrets; do not commit the generated files:
+
+| Secret | Value |
+|--------|-------|
+| `GOOGLE_SERVICES_JSON_BASE64` | Base64-encoded `android/app/google-services.json` |
+| `ANDROID_SECRETS_XML_BASE64` | Base64-encoded `android/app/src/main/res/values/secrets.xml` |
+| `ANDROID_KEYSTORE_BASE64` | Base64-encoded release keystore (`.jks`) |
+| `ANDROID_KEYSTORE_PASSWORD` | Keystore password |
+| `ANDROID_KEY_PASSWORD` | Signing key password |
+| `ANDROID_KEY_ALIAS` | Signing key alias |
+
+Add these names and values to a Codemagic variable group named `android-apk-secrets` and to the GitHub repository's **Settings → Secrets and variables → Actions**. Mark the Codemagic values as secure.
+
+On Windows PowerShell, encode each file without modifying it:
+
+```powershell
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("android/app/google-services.json"))
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("android/app/src/main/res/values/secrets.xml"))
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("android/app/upload-keystore.jks"))
+```
+
+The GitHub workflow runs on pushes or manually via **Actions → Build Android APK → Run workflow**. It intentionally does not run on pull requests because it needs access to signing secrets. Download `customer-app-release-apk` from the run's artifacts. Codemagic publishes `app-release.apk` as a build artifact. The APKs use the release keystore, so keep that same keystore for future app updates.
 
 ---
 
